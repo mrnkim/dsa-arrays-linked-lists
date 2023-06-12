@@ -183,7 +183,6 @@ class LinkedList {
 
       return current.val;
     } else {
-
       let i = 0;
       while (i < idx - 1) {
         current = current.next;
@@ -195,12 +194,22 @@ class LinkedList {
       this.length--;
       return removedNode.val;
     }
-
   }
 
   /** average(): return an average of all values in the list */
 
-  average() { }
+  average() {
+    if (this.length === 0) return 0;
+
+    let sum = 0;
+
+    let current = this.head;
+    while (current) {
+      sum += current.val;
+      current = current.next;
+    }
+    return sum / this.length;
+  }
 }
 
 module.exports = LinkedList;
