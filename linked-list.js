@@ -111,7 +111,7 @@ class LinkedList {
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
-    if (idx < 0 || idx > this.length - 1) {
+    if (idx < 0 || idx > this.length) {
       throw new Error();
     }
     let current = this.head;
@@ -125,15 +125,72 @@ class LinkedList {
 
   /** insertAt(idx, val): add node w/val before idx. */
 
-  insertAt(idx, val) {}
+  insertAt(idx, val) {
+    if (idx < 0 || idx > this.length) {
+      throw new Error();
+    }
+
+    const n = new Node(val);
+
+    if (!this.head) {
+      this.head = n;
+      this.tail = n;
+    } else {
+      let current = this.head;
+
+      if (idx === 0) {
+        n.next = this.head;
+        this.head = n;
+      } else {
+        let i = 0;
+        while (i < idx - 1) {
+          current = current.next;
+          i++;
+        }
+
+        n.next = current.next;
+        current.next = n;
+      }
+    }
+    this.length++;
+
+  }
 
   /** removeAt(idx): return & remove item at idx, */
+  // a0 -> b1 -> c2 -> d3
 
-  removeAt(idx) {}
+  removeAt(idx) {
+    if (idx < 0 || idx > this.length) {
+      throw new Error("out of bounds");
+    }
+
+    if(!this.head){
+      return null;
+    }
+
+    let current = this.head;
+    let oldNode = current.next;
+    this.length--;
+
+    if (idx === 0) {
+      this.head = this.head.next;
+
+      return oldNode;
+    } else {
+      let i = 0;
+      while (i < idx - 1) {
+        current = current.next;
+        i++;
+      }
+
+      current.next = current.next.next;
+      return oldNode;
+    }
+  }
 
   /** average(): return an average of all values in the list */
 
-  average() {}
+  average() { }
 }
 
 module.exports = LinkedList;
