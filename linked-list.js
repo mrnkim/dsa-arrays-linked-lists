@@ -132,60 +132,70 @@ class LinkedList {
 
     const n = new Node(val);
 
-    if (!this.head) {
+    if (idx === 0) {
+      // If inserting at the beginning
+      n.next = this.head;
       this.head = n;
+      if (!this.tail) {
+        this.tail = n;
+      }
+    } else if (idx === this.length) {
+      // If inserting at the end
+      this.tail.next = n;
       this.tail = n;
     } else {
+      // If inserting at a specific index
       let current = this.head;
+      let i = 0;
 
-      if (idx === 0) {
-        n.next = this.head;
-        this.head = n;
-      } else {
-        let i = 0;
-        while (i < idx - 1) {
-          current = current.next;
-          i++;
-        }
-
-        n.next = current.next;
-        current.next = n;
+      while (i < idx - 1) {
+        current = current.next;
+        i++;
       }
-    }
-    this.length++;
 
+      n.next = current.next;
+      current.next = n;
+    }
+
+    this.length++;
   }
 
   /** removeAt(idx): return & remove item at idx, */
-  // a0 -> b1 -> c2 -> d3
+  // a0
 
   removeAt(idx) {
     if (idx < 0 || idx > this.length) {
       throw new Error("out of bounds");
     }
 
-    if(!this.head){
+    if (!this.head) {
       return null;
     }
 
     let current = this.head;
-    let oldNode = current.next;
-    this.length--;
 
     if (idx === 0) {
       this.head = this.head.next;
+      if (this.head === null) {
+        this.tail = null;
+      }
+      this.length--;
 
-      return oldNode;
+      return current.val;
     } else {
+
       let i = 0;
       while (i < idx - 1) {
         current = current.next;
         i++;
       }
 
-      current.next = current.next.next;
-      return oldNode;
+      let removedNode = current.next;
+      current.next = removedNode.next;
+      this.length--;
+      return removedNode.val;
     }
+
   }
 
   /** average(): return an average of all values in the list */
